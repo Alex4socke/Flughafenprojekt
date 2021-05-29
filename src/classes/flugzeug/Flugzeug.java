@@ -10,7 +10,8 @@ import java.util.Calendar;
 import java.util.NoSuchElementException;
 
 public class Flugzeug {
-    // flugzeuggesellschaft 0 = Microair,
+    private Bahn[] alleBahnen = new Bahn[4];
+    private Parkstelle[] alleParkstellen = new Parkstelle[10];
     private Fluggesellschaft fluggesellschaft;
     private int flugnummer;
     private Flugzeugtyp flugzeugtyp;
@@ -39,8 +40,12 @@ public class Flugzeug {
     }
 
     public void vergebeParkstelle(Parkstelle parkstelle) {
-        this.parkstelle = parkstelle;
-        status = Status.geparkt;
+        if (addFlugzeugToParkstelle(parkstelle)){
+            this.parkstelle = parkstelle;
+            status = Status.geparkt;
+        } else {
+            System.out.println("Alle Parkstellen sind belegt.");
+        }
     }
 
     public void vergebeStartbahn(Bahn startbahn) {
@@ -56,6 +61,16 @@ public class Flugzeug {
     public void meldeGestartet(Calendar istZeitStart) {
         this.istZeitStart = istZeitStart;
         status = Status.gestartet;
+    }
+
+    public boolean addFlugzeugToParkstelle(Parkstelle parkstelle) {
+        for (int i = 0; i < alleParkstellen.length; i++) {
+            if (alleParkstellen[i] != null) {
+                alleParkstellen[i] = parkstelle;
+                return true;
+            }
+        }
+        return false;
     }
 
     public void print() {

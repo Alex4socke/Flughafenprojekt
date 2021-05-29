@@ -20,6 +20,15 @@ public class Client {
             return abfrageInt (frage);
         }
     }
+    public static int abfrageInt (String frage, int min, int max) {
+        int zahl = abfrageInt (frage);
+        if (zahl < min || zahl > max) {
+            System.out.println ("Bitte eine Zahl im Bereich von " + min +
+                    " und " + max + " eingeben.");
+            zahl = abfrageInt (frage, min, max);
+        }
+        return zahl;
+    }
 
     public static String abfrageString (String frage) {
         try {
