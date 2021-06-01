@@ -10,8 +10,8 @@ import java.util.Calendar;
 import java.util.NoSuchElementException;
 
 public class Flugzeug {
-    private Bahn[] alleBahnen = new Bahn[4];
-    private Parkstelle[] alleParkstellen = new Parkstelle[10];
+    private static Bahn[] alleBahnen = new Bahn[4];
+    private static Parkstelle[] alleParkstellen = new Parkstelle[10];
     private Fluggesellschaft fluggesellschaft;
     private int flugnummer;
     private Flugzeugtyp flugzeugtyp;
@@ -49,8 +49,12 @@ public class Flugzeug {
     }
 
     public void vergebeStartbahn(Bahn startbahn) {
-        this.startbahn = startbahn;
-        status = Status.startvoerbereitungen;
+        if (assignFlugzeugToLandebahn(startbahn)){
+            this.startbahn = startbahn;
+            status = Status.gestartet;
+        } else {
+            System.out.println("Alle Parkstellen sind belegt.");
+        }
     }
 
     public void meldeGelandet(Calendar istZeitLandung) {
@@ -67,6 +71,16 @@ public class Flugzeug {
         for (int i = 0; i < alleParkstellen.length; i++) {
             if (alleParkstellen[i] != null) {
                 alleParkstellen[i] = parkstelle;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean assignFlugzeugToLandebahn(Bahn bahn) {
+        for (int i = 0; i < alleBahnen.length; i++) {
+            if (alleBahnen[i] != null) {
+                alleBahnen[i] = bahn;
                 return true;
             }
         }
